@@ -3,6 +3,9 @@ import java.util.Arrays;
 
 public class Brute {
     public static void main(String[] args) {
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        
         String fileName = args[0];
         In in = new In(fileName);
         int n = in.readInt();
@@ -42,8 +45,9 @@ public class Brute {
         System.out.print(points[0]);
         for (int i = 1; i < points.length; i++) {
             System.out.format(" -> %s", points[i].toString());
-            points[i - 1].drawTo(points[i]);
         }
         System.out.println();
+        
+        points[0].drawTo(points[points.length - 1]);
     }
 }

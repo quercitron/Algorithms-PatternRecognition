@@ -22,14 +22,17 @@ public class Point implements Comparable<Point> {
         public int compare(Point o1, Point o2) {
             double slope1 = p.slopeTo(o1);
             double slope2 = p.slopeTo(o2);
-            return slope1 < slope2 ? -1 : 1;
+            if (slope1 < slope2) {
+                return -1;
+            }
+            if (slope1 == slope2) {
+                return 0;
+            }
+            return 1;
         }
         
     }
     
-    // compare points by slope to this point
-    public final Comparator<Point> SLOPE_ORDER = new PointComparator(this);
-
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -41,7 +44,7 @@ public class Point implements Comparable<Point> {
 
 
     public void drawTo(Point that) {
-        StdDraw.line(x, y, that.x, that.y);
+        StdDraw.line(this.x, this.y, that.x, that.y);
     }
 
 
@@ -53,7 +56,17 @@ public class Point implements Comparable<Point> {
 
     @Override
     public int compareTo(Point that) {
-        return this.y < that.y || (this.y == that.y && this.x < that.x) ? -1 : 1;
+        if (this.y < that.y) {
+            return -1;
+        }
+        if (this.y == that.y) {
+            if (this.x < that.x) {
+                return -1;
+            } else if (this.x == that.x) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
 
@@ -65,6 +78,12 @@ public class Point implements Comparable<Point> {
                 return Double.POSITIVE_INFINITY;
             }
         }
+        if (this.y == that.y) {
+            return +0.0;
+        }
         return (double) (that.y - this.y) / (that.x - this.x);
     }
+    
+    // compare points by slope to this point
+    public final Comparator<Point> SLOPE_ORDER = new PointComparator(this);
 }
